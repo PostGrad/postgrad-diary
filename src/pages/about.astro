@@ -1,0 +1,142 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { AUTHOR_NAME } from '@/lib/site';
+---
+
+<BaseLayout title="About" description={`About ${AUTHOR_NAME} and this technical writing site.`}>
+  <section class="about-intro">
+    <h1>{AUTHOR_NAME}</h1>
+    <p class="tagline">Full-stack software engineer / Forward deployed engineer</p>
+    <p class="summary">
+      Backend-focused full-stack engineer building scalable systems, production integrations, and practical
+      developer tooling. I work close to users, ship across stacks, and use AI-assisted workflows to move
+      faster without losing engineering judgment.
+    </p>
+    <nav class="profile-links" aria-label="Profile links">
+      <a href="mailto:emailofpranay@gmail.com">email</a>
+      <a href="https://linkedin.com/in/postgrad" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://github.com/PostGrad" target="_blank" rel="noopener">github</a>
+    </nav>
+  </section>
+
+  <section class="resume-section">
+    <h2>Currently</h2>
+    <article class="resume-item">
+      <div class="item-header">
+        <span class="company">Gupshup Technology</span>
+        <span class="period">2022 - present</span>
+      </div>
+      <p class="role">Senior Software Solution Engineer / Software Solution Engineer</p>
+      <p class="desc">
+        Forward-deployed with enterprise clients to design messaging and automation integrations across
+        WhatsApp, Instagram, and web channels. Recent work spans webhook reliability, async queues,
+        reporting automation, API performance, database tuning, and leading a team of engineers.
+      </p>
+    </article>
+  </section>
+
+  <section class="resume-section">
+    <h2>Previously</h2>
+    <article class="resume-item">
+      <div class="item-header">
+        <span class="company">BVM Engineering College</span>
+        <span class="period">2017 - 2022</span>
+      </div>
+      <p class="role">Assistant Professor, Computer Engineering</p>
+      <p class="desc">
+        Taught operating systems, web technology, and cloud computing to 1000+ students. Supervised
+        ML/DL projects and helped lead digital transformation during COVID-era remote education.
+      </p>
+    </article>
+    <article class="resume-item">
+      <div class="item-header">
+        <span class="company">Tata Consultancy Services</span>
+        <span class="period">2017</span>
+      </div>
+      <p class="role">Assistant System Engineer</p>
+      <p class="desc">Worked on SAP-BI dashboards and ETL pipelines.</p>
+    </article>
+  </section>
+
+  <section class="resume-section">
+    <h2>Projects</h2>
+    <article class="resume-item">
+      <div class="item-header">
+        <a class="company" href="https://github.com/PostGrad/Publier" target="_blank" rel="noopener">Publier</a>
+      </div>
+      <p class="desc">
+        Developer-first content publishing API for creating, scheduling, and managing content with
+        Node.js, TypeScript, PostgreSQL, and Redis.
+      </p>
+    </article>
+    <article class="resume-item">
+      <div class="item-header">
+        <span class="company">Temple Management Apps</span>
+      </div>
+      <p class="desc">
+        Volunteer web applications for event and temple operations using Next.js, Nest.js, and GraphQL.
+      </p>
+    </article>
+    <article class="resume-item">
+      <div class="item-header">
+        <a class="company" href="https://github.com/PostGrad/gyanghar-public" target="_blank" rel="noopener">
+          Gyan Ghar Dashboard
+        </a>
+      </div>
+      <p class="desc">
+        Mobile-first accountability platform for students and administrators in a residential hostel.
+      </p>
+    </article>
+    <article class="resume-item">
+      <div class="item-header">
+        <span class="company">RAG Chatbot</span>
+      </div>
+      <p class="desc">
+        Retrieval-augmented generation chatbot for contextual Q&amp;A workflows over private knowledge.
+      </p>
+    </article>
+  </section>
+
+  <section class="resume-section">
+    <h2>Stack</h2>
+    <div class="skills">
+      <div class="skill-group">
+        <span class="skill-label">languages</span>
+        <span class="skill-items">Python, TypeScript, JavaScript</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-label">backend</span>
+        <span class="skill-items">Node.js, Nest.js, Express, Django</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-label">apis</span>
+        <span class="skill-items">REST, GraphQL, Webhooks</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-label">databases</span>
+        <span class="skill-items">PostgreSQL, MongoDB, Redis, MySQL</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-label">frontend</span>
+        <span class="skill-items">React, Next.js, TanStack, Tailwind</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-label">devops</span>
+        <span class="skill-items">Linux, Docker, Git, Jenkins, AWS</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <h2>Education</h2>
+    <div class="resume-item compact">
+      <span class="degree">M.E. Computer Engineering</span>
+      <span class="period">2014 - 2016</span>
+    </div>
+    <div class="resume-item compact">
+      <span class="degree">B.E. Computer Engineering</span>
+      <span class="period">2010 - 2014</span>
+    </div>
+    <p class="note">GATE 2014 - AIR 2739 / GATE 2016 - AIR 5843</p>
+  </section>
+</BaseLayout>

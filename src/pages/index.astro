@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { formatDate, getPublishedPosts } from '@/lib/posts';
+import { SITE_DESCRIPTION, SITE_TITLE, withBase } from '@/lib/site';
+
+const posts = await getPublishedPosts();
+const latestPosts = posts.slice(0, 3);
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section class="hero">
+    <div class="hero-copy">
+      <!-- <p class="eyebrow">Technical blogs</p> -->
+      <h1>Welcome to My Technical Blog</h1>
+      <p>{SITE_DESCRIPTION}</p>
+      <div class="hero-actions">
+        <a class="button primary" href={withBase('/blogs')}>Read posts</a>
+        <a class="button secondary" href={withBase('/about')}>About the author</a>
+      </div>
+    </div>
+    <div class="hero-panel" aria-label="Editorial focus">
+      <span>Architecture</span>
+      <span>Tooling</span>
+      <span>Debugging</span>
+      <span>Delivery</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2>Recent posts</h2>
+    </div>
+    <div class="post-grid">
+      {latestPosts.map((post) => (
+        <article class="post-card">
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          <h3><a href={withBase(`/blogs/${post.id}`)}>{post.data.title}</a></h3>
+          <p>{post.data.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

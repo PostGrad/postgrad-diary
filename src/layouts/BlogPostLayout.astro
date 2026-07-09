@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { formatDate, getReadingTime } from '@/lib/posts';
+import { withBase } from '@/lib/site';
+
+const { entry } = Astro.props;
+const { title, description, pubDate, updatedDate, tags } = entry.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="post-shell">
+    <header class="post-header">
+      <a class="eyebrow" href={withBase('/blogs')}>Blog</a>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <div class="post-meta">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        <span>{getReadingTime(entry.body)}</span>
+        {updatedDate && <span>Updated {formatDate(updatedDate)}</span>}
+      </div>
+      {tags.length > 0 && (
+        <ul class="tag-list" aria-label="Post tags">
+          {tags.map((tag: string) => <li><a href={withBase(`/tags/${tag}`)}>{tag}</a></li>)}
+        </ul>
+      )}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
