@@ -1,9 +1,9 @@
 ---
 title: "My Claude Code setup"
 description: "A token proxy, a skills framework, and a code graph"
-date: 2026-07-26
+pubDate: 2026-07-26
 tags: 
-	- claude-code
+    - claude-code
     - ai-tools
     - developer-tools
     - productivity
