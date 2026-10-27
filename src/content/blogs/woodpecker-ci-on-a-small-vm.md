@@ -1,13 +1,15 @@
 ---
 title: "CI/CD on a 2 vCPU server, without buying anything"
-description: "Setting up Woodpecker CI on a small shared VM: manual-only deploys to staging and production, a production key that can do five things, and the small stuff that broke on the way"
+description: "Setting up Woodpecker CI on a small shared VM: manual-only deploys to staging and production, a production key that can do five things, a fail-safe rollback button, and the small stuff that broke on the way"
 pubDate: 2026-10-27
+updatedDate: 2026-10-27
 tags:
   - devops
   - ci-cd
   - woodpecker
   - pm2
   - self-hosted
+  - rollback
 draft: false
 ---
 
@@ -108,6 +110,37 @@ esac
 I tested it by asking for `id`. The answer was `not allowed: id`. Even if that key leaks, the worst anyone can do with it is run a check or a deploy, which is what it is for.
 
 The private half lives as a Woodpecker secret limited to manual events. Every production pipeline runs the check mode first, then the real deploy, so a bad state (no disk space, wrong branch) stops it before anything changes.
+
+## Rollback: a separate button, on purpose
+
+Deploying is the easy half. The first thing a teammate will ask is what happens when a deploy goes wrong, so the setup needs an undo too.
+
+The obvious way is a second workflow that also runs when someone clicks Run pipeline. That does not work: both workflows match the click, so one button starts a deploy and a rollback at the same time. Woodpecker has a different event for this, `deployment`. You trigger it from a finished, green pipeline with a Deploy button, and it asks for a target environment. The rollback workflow only matches that event with one specific target:
+
+```yaml
+when:
+  - event: deployment
+    branch: staging
+    evaluate: 'CI_PIPELINE_DEPLOY_TARGET == "rollback"'
+```
+
+A nice side effect is that it fails safe. Type `rollbak` and nothing happens. If I had used a variable on the normal Run pipeline dialog instead, a typo would quietly run a plain deploy, which is the opposite of what you want at the moment you are rolling back. You also have to switch on "Allow Deployments" per repository first, so nothing changes until you decide it should.
+
+<svg viewBox="0 0 740 200" role="img" aria-label="Rollback flow: green pipeline, Deploy with target rollback, preview, rollback, health wait; a typo in the target runs nothing" style="width:100%;height:auto;display:block;margin:1.5rem 0"><defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--text-muted)"/></marker></defs><rect x="10" y="30" width="128" height="58" rx="8" style="fill:var(--surface);stroke:var(--line);stroke-width:1.4;"/><text x="74.0" y="56.0" text-anchor="middle" style="font-family:inherit;font-size:12.5px;font-weight:600;fill:var(--text)">Green pipeline</text><text x="74.0" y="72.0" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">on the branch</text><rect x="160" y="30" width="128" height="58" rx="8" style="fill:var(--surface);stroke:var(--line);stroke-width:1.4;"/><text x="224.0" y="56.0" text-anchor="middle" style="font-family:inherit;font-size:12.5px;font-weight:600;fill:var(--text)">Click Deploy</text><text x="224.0" y="72.0" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">target: rollback</text><rect x="310" y="30" width="128" height="58" rx="8" style="fill:var(--surface);stroke:var(--line);stroke-width:1.4;"/><text x="374.0" y="56.0" text-anchor="middle" style="font-family:inherit;font-size:12.5px;font-weight:600;fill:var(--text)">Preview</text><text x="374.0" y="72.0" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">changes nothing</text><rect x="460" y="30" width="128" height="58" rx="8" style="fill:var(--surface);stroke:var(--accent);stroke-width:2.2;"/><text x="524.0" y="56.0" text-anchor="middle" style="font-family:inherit;font-size:12.5px;font-weight:600;fill:var(--text)">Roll back</text><text x="524.0" y="72.0" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">code, deps, reload</text><rect x="610" y="30" width="128" height="58" rx="8" style="fill:var(--surface);stroke:var(--line);stroke-width:1.4;"/><text x="674.0" y="56.0" text-anchor="middle" style="font-family:inherit;font-size:12.5px;font-weight:600;fill:var(--text)">Health wait</text><text x="674.0" y="72.0" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">green only if healthy</text><line x1="138" y1="59.0" x2="160" y2="59.0" style="stroke:var(--text-muted);stroke-width:1.5;" marker-end="url(#ah4)"/><line x1="288" y1="59.0" x2="310" y2="59.0" style="stroke:var(--text-muted);stroke-width:1.5;" marker-end="url(#ah4)"/><line x1="438" y1="59.0" x2="460" y2="59.0" style="stroke:var(--text-muted);stroke-width:1.5;" marker-end="url(#ah4)"/><line x1="588" y1="59.0" x2="610" y2="59.0" style="stroke:var(--text-muted);stroke-width:1.5;" marker-end="url(#ah4)"/><rect x="170" y="138" width="108" height="44" rx="8" style="fill:var(--surface);stroke:var(--line);stroke-width:1.4;stroke-dasharray:5 4;"/><text x="224.0" y="157.0" text-anchor="middle" style="font-family:inherit;font-size:12.5px;font-weight:600;fill:var(--text)">Typo in target</text><text x="224.0" y="173.0" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">nothing runs</text><line x1="224.0" y1="88" x2="224.0" y2="138" style="stroke:var(--text-muted);stroke-width:1.5;stroke-dasharray:5 4;" marker-end="url(#ah4)"/><text x="524.0" y="148" text-anchor="middle" style="font-family:inherit;font-size:11px;fill:var(--text-muted)">migrations are NOT undone</text><text x="524.0" y="164" text-anchor="middle" style="font-family:inherit;font-size:10.5px;fill:var(--text-muted)">(the preview warns if the release had some)</text></svg>
+
+The rollback script does the careful parts so the person clicking does not have to. Every real deploy records the commit it replaced. A rollback shows a preview step first (the commit you are on, the commit you go back to, and a warning if the release you are removing added database migrations), refuses to run if someone edited files on the server, takes the same lock the deploy uses, reinstalls dependencies only if the lockfile differs, reloads, and only goes green after the health check passes. I tried it on staging with a real frontend: preview, rebuild, reload, health wait, done in about a minute and a half.
+
+A few things went wrong while I built it.
+
+**The locked key could not be asked to roll back.** My staging frontend key was forced to run the deploy script, and a forced command ignores what the client asks for. That means the key could never say "roll back", and worse, any request at all ran a deploy. The fix was the same pattern as production: a tiny wrapper that knows exactly three words (deploy, preview, rollback) and refuses everything else. Production's wrapper grew the same way: it started with five words and gained two for the backend rollback, still a short, fixed list.
+
+**Re-running a deploy erased the rollback target.** The scripts saved the previous commit on every run. If you re-ran a deploy with nothing new to ship, "previous" quietly became "current", and the next rollback found nothing to go back to. I spotted it because I was about to run a no-op deploy just to get a green pipeline for my test. The target now only moves when a deploy actually changes the commit.
+
+**Rolling back twice does not always undo it.** On most targets the script records the version you rolled back from, so a second rollback goes forward again. The production frontend is just a folder of static files that gets swapped, and its rollback republishes the saved folder without swapping it, so a second rollback changes nothing. I wrote that down in the runbook instead of adding untested swap logic to a production script. Going forward there is a normal deploy.
+
+One limit to know about: a rollback only puts the code back. Migrations that already ran stay applied, which is why the preview warns about them. If a bad release also changed the database, the button will not fix that, and someone has to decide what to do.
+
+One more thing, from my own test. I went to try the rollback and the pipeline I had open turned out to be a production one. The Deploy dialog does not show the branch, so typing `rollback` there would have rolled back production. I caught it before pressing anything, but it made the point: look at the pipeline title and check it says the branch you mean. That is in the runbook now.
 
 ## What actually broke
 
