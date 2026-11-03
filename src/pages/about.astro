@@ -6,11 +6,15 @@ import { AUTHOR_NAME } from '@/lib/site';
 <BaseLayout title="About" description={`About ${AUTHOR_NAME} and this technical writing site.`}>
   <section class="about-intro">
     <h1>{AUTHOR_NAME}</h1>
-    <p class="tagline">Full-stack software engineer / Forward deployed engineer</p>
+    <p class="tagline">Senior Software Engineer · Tech Lead · DevOps · AI Projects</p>
     <p class="summary">
-      Backend-focused full-stack engineer building scalable systems, production integrations, and practical
-      developer tooling. I work close to users, ship across stacks, and use AI-assisted workflows to move
-      faster without losing engineering judgment.
+      Five years into building software for a living, now a Senior Software Engineer at Opexil, where my
+      job title is really a list of hats: tech lead,
+      hands-on developer, DevOps owner and a regular voice in client meetings. I work across the
+      platform end to end, from backend and apps to cloud infrastructure and deployments, and I'm
+      driving our AI work, including Opeximate. Before this I was a forward-deployed engineer at
+      Gupshup and, in a previous life, a professor. I like building reliable software that works for
+      real businesses, preferably the kind that lets me sleep through the night.
     </p>
     <nav class="profile-links" aria-label="Profile links">
       <a href="mailto:emailofpranay@gmail.com">email</a>
@@ -23,20 +27,36 @@ import { AUTHOR_NAME } from '@/lib/site';
     <h2>Currently</h2>
     <article class="resume-item">
       <div class="item-header">
-        <span class="company">Gupshup Technology</span>
-        <span class="period">2022 - present</span>
+        <span class="company">Opexil</span>
+        <span class="period">Jun 2026 - present</span>
       </div>
-      <p class="role">Senior Software Solution Engineer / Software Solution Engineer</p>
+      <p class="role">Senior Software Engineer · Tech Lead · DevOps · AI Projects</p>
       <p class="desc">
-        Forward-deployed with enterprise clients to design messaging and automation integrations across
-        WhatsApp, Instagram, and web channels. Recent work spans webhook reliability, async queues,
-        reporting automation, API performance, database tuning, and leading a team of engineers.
+        Tech lead, hands-on developer, DevOps owner and a regular voice in client meetings. In practice
+        that means the person who wrote the code also explains it to the client, ships it to production
+        and picks up the phone when it misbehaves. I work across the platform end to end: backend, web
+        and mobile apps, ERP integrations, cloud infrastructure, CI/CD and deployments. Also driving our
+        AI work, including Opeximate.
       </p>
     </article>
   </section>
 
   <section class="resume-section">
     <h2>Previously</h2>
+    <article class="resume-item">
+      <div class="item-header">
+        <span class="company">Gupshup Technology</span>
+        <span class="period">2022 - 2026</span>
+      </div>
+      <p class="role">Senior Software Solution Engineer (Oct 2025 - May 2026) · Software Solution Engineer (Jun 2022 - Sep 2025)</p>
+      <p class="desc">
+        Forward-deployed engineer working directly with enterprise clients on messaging and automation
+        integrations (WhatsApp, Instagram, Web) handling millions of messages a day. Built fault-tolerant
+        webhook pipelines with retries and async queues that cut delivery failures by 95%, analytics that
+        cut manual reporting by 80%, and query and worker tuning that made APIs 40% faster on 30% less
+        infra. Led a team of 6 engineers.
+      </p>
+    </article>
     <article class="resume-item">
       <div class="item-header">
         <span class="company">BVM Engineering College</span>
@@ -54,12 +74,28 @@ import { AUTHOR_NAME } from '@/lib/site';
         <span class="period">2017</span>
       </div>
       <p class="role">Assistant System Engineer</p>
-      <p class="desc">Worked on SAP-BI dashboards and ETL pipelines.</p>
+      <p class="desc">
+        Went through TCS's Initial Learning Program on the enterprise Java track: Core Java, Spring Boot,
+        REST APIs and SQL. Built backend modules and utility services for training assignments and project
+        simulations, and walked out with a 4/5 rating, which by ILP standards is a very good report card.
+      </p>
     </article>
   </section>
 
   <section class="resume-section">
     <h2>Projects</h2>
+    <article class="resume-item">
+      <div class="item-header">
+        <a class="company" href="https://rnscinemas.in/" target="_blank" rel="noopener">R&amp;S Cinemas</a>
+      </div>
+      <p class="desc">
+        Website and staff portal for R&amp;S Cinemas, live at rnscinemas.in. Movies, trailers, online food
+        ordering with HDFC payment gateway and receipts, group bookings and student discounts on the public
+        side, plus a staff dashboard for movies, screens, canteen menu, requests and user access. Started on
+        Next.js and got migrated to React 19 + Vite with an Express and MySQL API, because sometimes the
+        best feature is fewer moving parts.
+      </p>
+    </article>
     <article class="resume-item">
       <div class="item-header">
         <a class="company" href="https://github.com/PostGrad/Publier" target="_blank" rel="noopener">Publier</a>
@@ -102,7 +138,7 @@ import { AUTHOR_NAME } from '@/lib/site';
     <div class="skills">
       <div class="skill-group">
         <span class="skill-label">languages</span>
-        <span class="skill-items">Python, TypeScript, JavaScript</span>
+        <span class="skill-items">TypeScript, JavaScript, Python, Java</span>
       </div>
       <div class="skill-group">
         <span class="skill-label">backend</span>
@@ -121,8 +157,12 @@ import { AUTHOR_NAME } from '@/lib/site';
         <span class="skill-items">React, Next.js, TanStack, Tailwind</span>
       </div>
       <div class="skill-group">
+        <span class="skill-label">mobile</span>
+        <span class="skill-items">React Native, Expo, Zustand, Redux Toolkit</span>
+      </div>
+      <div class="skill-group">
         <span class="skill-label">devops</span>
-        <span class="skill-items">Linux, Docker, Git, Jenkins, AWS</span>
+        <span class="skill-items">Linux, Docker, Git, Jenkins, AWS, GCP, Woodpecker</span>
       </div>
     </div>
   </section>
